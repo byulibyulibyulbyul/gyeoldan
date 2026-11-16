@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>결단 스킨로그 · 기관용</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+/* 색·글꼴은 AiApp 「결단 스킨로그」 화면과 같게 맞춤 */
+:root{--ink:#16301F;--muted:#5B6E61;--line:#DCE6DA;--bg:#F6FAF4;--card:#fff;--tile:#EEF3EC;--brand:#1F7A46;--brand-ink:#16301F;--brand-soft:#E3F1E7;--accent:#F0A92B;--up:#1F7A46;--up-soft:#E3F1E7;--down:#C2410C;--down-soft:#FDF0E8;--warn:#92400E;--warn-soft:#FEF3C7}
+*{box-sizing:border-box}
+body{margin:0;background:#E9EFE7;font-family:Pretendard,'Pretendard Variable',-apple-system,'Noto Sans KR',sans-serif;color:var(--ink);letter-spacing:-0.2px;-webkit-text-size-adjust:100%}
+.hero{background:var(--brand);color:#fff;border-radius:16px;padding:22px 18px 18px;margin-bottom:12px;overflow:hidden}
+.hero .eyebrow{font-size:11px;font-weight:700;letter-spacing:1.5px;opacity:.85}
+.hero h2{font-size:30px;font-weight:900;line-height:1.15;margin:8px 0 10px;letter-spacing:-1px}
+.hero p{margin:0;font-size:14px;opacity:.9}
+.hero img{display:block;width:calc(100% + 36px);margin:16px -18px -18px;height:150px;object-fit:cover}
+.hero .stats{display:flex;gap:8px;margin-top:14px}
+.hero .stats div{flex:1;background:rgba(255,255,255,.12);border-radius:12px;padding:10px;text-align:center}
+.hero .stats b{display:block;font-size:22px;font-weight:900}
+.hero .stats span{font-size:12px;opacity:.85}
+.app{max-width:480px;margin:0 auto;min-height:100vh;background:var(--bg);padding-bottom:84px;position:relative}
+header.top{position:sticky;top:0;z-index:5;background:#fff;display:flex;align-items:center;gap:6px;padding:8px 12px 8px 16px;min-height:60px;border-bottom:1px solid var(--line)}
+header.top h1{font-size:20px;margin:0;flex:1;font-weight:700}
+header.top .sub{font-size:12px;color:var(--muted);font-weight:500}
+main{padding:14px 16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:12px}
+.card h2{font-size:16px;margin:0 0 10px}
+.muted{color:var(--muted);font-size:13px}
+.row{display:flex;gap:8px;align-items:center}
+.row.wrap{flex-wrap:wrap}
+.grow{flex:1;min-width:0}
+label.f{display:block;font-size:13px;color:var(--muted);margin:10px 0 4px}
+input,select,textarea{width:100%;font:inherit;font-size:16px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+textarea{min-height:64px;resize:vertical}
+button{font:inherit;cursor:pointer}
+.btn{min-height:44px;border:0;border-radius:12px;padding:0 16px;font-size:15px;font-weight:700;background:var(--brand);color:#fff}
+.btn.ghost{background:#fff;color:var(--brand-ink);border:1.5px solid var(--brand)}
+.btn.plain{background:var(--tile);color:var(--ink)}
+.btn.danger{background:#fff;color:#B91C1C;border:1.5px solid #FCA5A5}
+.btn.block{width:100%}
+.btn:disabled{opacity:.45;cursor:default}
+.iconbtn{width:40px;height:40px;border:0;background:transparent;border-radius:10px;font-size:20px}
+.list .item{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--line);cursor:pointer}
+.list .item:first-child{border-top:0}
+.avatar{width:40px;height:40px;border-radius:50%;background:var(--brand-soft);color:var(--brand-ink);display:flex;align-items:center;justify-content:center;font-weight:700;flex:none}
+.name{font-weight:700}
+.chip{display:inline-block;font-size:12px;font-weight:700;padding:3px 8px;border-radius:999px;background:var(--tile);color:var(--muted)}
+.chip.up{background:var(--up-soft);color:var(--up)}
+.chip.down{background:var(--down-soft);color:var(--down)}
+.chip.warn{background:var(--warn-soft);color:var(--warn)}
+.chip.ok{background:var(--brand-soft);color:var(--brand-ink)}
+.seg{display:flex;background:var(--tile);border-radius:12px;padding:4px;gap:4px}
+.seg button{flex:1;min-height:36px;border:0;border-radius:9px;background:transparent;font-weight:700;color:var(--muted)}
+.seg button.on{background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.steps{display:flex;gap:6px;margin-bottom:12px}
+.steps div{flex:1;text-align:center;font-size:13px;font-weight:700;padding:8px 0;border-radius:10px;background:var(--tile);color:var(--muted)}
+.steps div.on{background:var(--brand);color:#fff}
+.steps div.done{background:var(--brand-soft);color:var(--brand-ink)}
+.big{display:flex;gap:10px}
+.big > div{flex:1;background:var(--tile);border-radius:14px;padding:12px;text-align:center}
+.big .v{font-size:34px;font-weight:700;line-height:1.1}
+.big .u{font-size:12px;color:var(--muted)}
+.cmp{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.cmp .side{flex:1;text-align:center}
+.cmp .side .v{font-size:30px;font-weight:700}
+.cmp .arrow{font-size:22px;color:var(--muted)}
+.delta{font-size:20px;font-weight:700;text-align:center;margin-top:8px}
+.delta.up{color:var(--up)}.delta.down{color:var(--down)}
+table.t{width:100%;border-collapse:collapse;font-size:14px}
+table.t th,table.t td{padding:8px 4px;border-top:1px solid var(--line);text-align:right}
+table.t th:first-child,table.t td:first-child{text-align:left}
+table.t th{font-size:12px;color:var(--muted);font-weight:500;border-top:0}
+nav.tabs{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#fff;border-top:1px solid var(--line);display:flex;z-index:6}
+nav.tabs button{flex:1;min-height:64px;border:0;background:transparent;font-size:13px;font-weight:700;color:var(--muted);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+nav.tabs button .i{font-size:20px}
+nav.tabs button.on{color:var(--brand)}
+#toast{position:fixed;left:50%;bottom:92px;transform:translateX(-50%);background:#111418;color:#fff;padding:10px 16px;border-radius:12px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:9;max-width:90%}
+#toast.show{opacity:1}
+.foot{font-size:12px;color:var(--muted);text-align:center;padding:8px 16px 16px}
+.note{font-size:13px;background:var(--warn-soft);color:var(--warn);border-radius:10px;padding:10px 12px;margin-top:10px}
+.mt{margin-top:10px}
+svg text{font-family:inherit}
+.bars .b{margin:12px 0}
+.bars .b:first-child{margin-top:4px}
+.bars .lab{display:flex;justify-content:space-between;gap:8px;font-size:14px}
+.bars .track{height:12px;background:var(--tile);border-radius:6px;margin:5px 0 3px;overflow:hidden}
+.bars .fill{height:100%;background:var(--brand);border-radius:6px}
+.bars .fill.neg{background:var(--down)}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top" id="hdr"></header>
+  <main id="view"></main>
+  <div class="foot">피부 상태 기록용이며 의학적 진단이 아닙니다.</div>
+  <nav class="tabs" id="tabs"></nav>
+  <div id="toast"></div>
+</div>
+<script>
+(function(){
+'use strict';
+// ---------- 상수 ----------
+var LS_KEY = 'gyeoldan_clinic_v1';
+var NUS = '6e400001-b5a3-f393-e0a9-e50e24dcca9e';
+var NUS_RX = '6e400002-b5a3-f393-e0a9-e50e24dcca9e';   // 앱 → 기기 (명령)
+var NUS_TX = '6e400003-b5a3-f393-e0a9-e50e24dcca9e';   // 기기 → 앱 (측정값)
+var AREAS = { '얼굴': ['볼', '이마', '턱', '눈가'], '두피': ['정수리', '앞머리', '옆머리', '뒷머리'] };
+var TEMP_WARN = 1.5;   // 관리 전후 온도 차이가 이보다 크면 비교 주의 (°C)
+var STABLE_CV = 3;     // 최근 값 편차가 이보다 작으면 '안정' (%)
+
+// ---------- 저장 데이터 ----------
+function blankShare(){ return { on: false, url: '', key: '', token: '', last: 0 }; }
+var D = { clinic: '', customers: [], sessions: [], products: [], share: blankShare() };
+// ---------- 화면 상태 ----------
+var S = { tab: 'cust', cid: null, q: '', draft: null, report: null, pf: '전체', global: null, gmsg: '',
+  ble: { dev: null, rx: null, state: 'off', buf: '', live: [], csvTried: false, msg: '' } };
+
+// ---------- 도구 ----------
+function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+function num(v){ if (v === '' || v == null) return null; var n = Number(v); return isFinite(n) ? n : null; }
+function r1(v){ return v == null ? '–' : (Math.round(v * 10) / 10).toFixed(1); }
+function mean(a){ return a.length ? a.reduce(function(s, x){ return s + x; }, 0) / a.length : null; }
+function cv(a){ var m = mean(a); if (a.length < 2 || !m) return null; var v = a.reduce(function(s, x){ return s + (x - m) * (x - m); }, 0) / (a.length - 1); return Math.sqrt(v) / Math.abs(m) * 100; }
+function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+function today(){ var d = new Date(); d.setMinutes(d.getMinutes() - d.getTimezoneOffset()); return d.toISOString().slice(0, 10); }
+function initial(a){ return esc(String(a || '').replace(/^\[예시\]\s*/, '').slice(0, 1)); }
+function md(t){ return t ? t.slice(5).replace('-', '.') : ''; }
+function toast(msg){ var el = document.getElementById('toast'); el.textContent = msg; el.classList.add('show'); clearTimeout(toast._t); toast._t = setTimeout(function(){ el.classList.remove('show'); }, 2200); }
+function persist(){ try { localStorage.setItem(LS_KEY, JSON.stringify(D)); } catch (e) { toast('저장 공간에 쓰지 못했어요'); } }
+// 저장할 때마다, 공유가 켜져 있으면 3초 뒤 익명 통계를 새로 보낸다
+function save(){ persist(); if (shareReady()) { clearTimeout(save._t); save._t = setTimeout(function(){ shareSync(true); }, 3000); } }
+function setData(d){ D = { clinic: d.clinic || '', customers: d.customers || [], sessions: d.sessions || [], products: d.products || [], share: Object.assign(blankShare(), d.share || {}) }; }
+function load(){ try { var raw = localStorage.getItem(LS_KEY); if (raw) setData(JSON.parse(raw)); } catch (e) {} }
+function cust(id){ return D.customers.filter(function(c){ return c.id === id; })[0] || null; }
+function sessionsOf(cid){ return D.sessions.filter(function(s){ return s.cid === cid; }).sort(function(a, b){ return a.date < b.date ? -1 : a.date > b.date ? 1 : a.ts - b.ts; }); }
+function delta(s){ return (s.pre && s.post && s.pre.m != null && s.post.m != null) ? s.post.m - s.pre.m : null; }
+function tempGap(s){ return (s.pre && s.post && s.pre.t != null && s.post.t != null) ? Math.abs(s.post.t - s.pre.t) : null; }
+function careLine(s){ var t = [s.care, s.product].filter(Boolean).join(' · '); return t ? '<p class="muted mt">관리: ' + esc(t) + '</p>' : ''; }
+function deltaChip(d){ if (d == null) return '<span class="chip">–</span>'; var c = d > 0.5 ? 'up' : d < -0.5 ? 'down' : ''; return '<span class="chip ' + c + '">' + (d > 0 ? '▲ ' : d < 0 ? '▼ ' : '') + r1(Math.abs(d)) + '</span>'; }
+
+// ---------- 그래프 (관리 전·후 수분 추이) ----------
+function chart(list){
+  var pts = list.filter(function(s){ return s.pre && s.pre.m != null; });
+  if (pts.length < 2) return '<p class="muted">방문 기록이 2회 이상이면 추이 그래프가 나타나요.</p>';
+  var W = 440, H = 170, L = 34, R = 10, T = 12, B = 26;
+  var vals = [];
+  pts.forEach(function(s){ vals.push(s.pre.m); if (s.post && s.post.m != null) vals.push(s.post.m); });
+  var lo = Math.floor(Math.min.apply(null, vals) - 5), hi = Math.ceil(Math.max.apply(null, vals) + 5);
+  function X(i){ return L + (pts.length === 1 ? 0 : i * (W - L - R) / (pts.length - 1)); }
+  function Y(v){ return T + (hi - v) * (H - T - B) / (hi - lo || 1); }
+  function line(key, color){
+    var d = '', dots = '';
+    pts.forEach(function(s, i){ var o = s[key]; if (!o || o.m == null) return; d += (d ? 'L' : 'M') + X(i).toFixed(1) + ' ' + Y(o.m).toFixed(1); dots += '<circle cx="' + X(i).toFixed(1) + '" cy="' + Y(o.m).toFixed(1) + '" r="3.5" fill="' + color + '"/>'; });
+    return '<path d="' + d + '" fill="none" stroke="' + color + '" stroke-width="2.5"/>' + dots;
+  }
+  var grid = '';
+  [lo, (lo + hi) / 2, hi].forEach(function(v){ grid += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + Y(v) + '" y2="' + Y(v) + '" stroke="#E5E7EB"/><text x="' + (L - 6) + '" y="' + (Y(v) + 4) + '" font-size="11" fill="#6B7280" text-anchor="end">' + Math.round(v) + '</text>'; });
+  var xl = '';
+  pts.forEach(function(s, i){ if (pts.length <= 6 || i % Math.ceil(pts.length / 6) === 0 || i === pts.length - 1) xl += '<text x="' + X(i) + '" y="' + (H - 6) + '" font-size="11" fill="#6B7280" text-anchor="middle">' + md(s.date) + '</text>'; });
+  return '<svg viewBox="0 0 ' + W + ' ' + H + '" width="100%" role="img" aria-label="방문별 수분 추이">' + grid + xl + line('pre', '#9CA3AF') + line('post', '#1F7A46') + '</svg>' +
+    '<div class="row muted" style="gap:14px"><span><b style="color:#9CA3AF">●</b> 관리 전</span><span><b style="color:#1F7A46">●</b> 관리 후</span></div>';
+}
+
+// ---------- 제품별 통계 ----------
+function sdOf(a){ var m = mean(a); return a.length > 1 ? Math.sqrt(a.reduce(function(s, x){ return s + (x - m) * (x - m); }, 0) / (a.length - 1)) : null; }
+function productStats(site){
+  var g = {};
+  D.sessions.forEach(function(s){
+    if (!s.product || (site !== '전체' && s.site !== site)) return;
+    var d = delta(s); if (d == null) return;
+    (g[s.product] = g[s.product] || []).push(d);
+  });
+  return Object.keys(g).map(function(k){ var a = g[k], sd = sdOf(a); return { name: k, n: a.length, mean: mean(a), se: sd == null ? null : sd / Math.sqrt(a.length) }; })
+    .sort(function(a, b){ return b.mean - a.mean; });
+}
+// 가로 막대: 제품별 평균 수분 변화 (± 표준오차)
+function bars(items, extra, empty){
+  if (!items.length) return '<p class="muted">' + empty + '</p>';
+  var mx = Math.max.apply(null, items.map(function(x){ return Math.abs(x.mean); })) || 1;
+  return '<div class="bars">' + items.map(function(x){
+    var w = Math.max(2, Math.abs(x.mean) / mx * 100);
+    return '<div class="b"><div class="lab"><span class="name">' + esc(x.name) + '</span><span><b>' + (x.mean >= 0 ? '+' : '') + r1(x.mean) + '</b>' + (x.se != null ? ' <span class="muted">±' + r1(x.se) + '</span>' : '') + '</span></div>' +
+      '<div class="track"><div class="fill' + (x.mean < 0 ? ' neg' : '') + '" style="width:' + w.toFixed(0) + '%"></div></div>' +
+      '<div class="muted">' + x.n + '회' + (extra ? extra(x) : '') + (x.n < 3 ? ' · <span class="chip warn">기록 적음</span>' : '') + '</div></div>';
+  }).join('') + '</div>';
+}
+
+// ---------- 익명 통계 공유 (Supabase, supabase_share.sql 참고) ----------
+function shareReady(){ var s = D.share; return !!(s && s.on && s.url && s.key && s.token); }
+// 동의한 고객 + 제품이 있는 기록만. 별칭·뒷자리·메모·일 단위 날짜는 보내지 않는다
+function shareRows(){
+  var ok = {}; D.customers.forEach(function(c){ if (c.share) ok[c.id] = 1; });
+  return D.sessions.filter(function(s){ return ok[s.cid] && s.product && delta(s) != null; })
+    .map(function(s){ return { p: s.product, s: s.site, a: s.area, m: s.date.slice(0, 7), b: s.pre.m, f: s.post.m }; });
+}
+async function rpc(fn, body){
+  // 새 publishable 키(sb_publishable_…)는 apikey 헤더만, 예전 anon 키(eyJ…)는 Bearer 도 함께 보낸다
+  var hd = { 'apikey': D.share.key, 'Content-Type': 'application/json' };
+  if (/^eyJ/.test(D.share.key)) hd.Authorization = 'Bearer ' + D.share.key;
+  var r = await fetch(D.share.url.replace(/\/+$/, '') + '/rest/v1/rpc/' + fn, { method: 'POST', headers: hd, body: JSON.stringify(body || {}) });
+  if (!r.ok) throw new Error('서버 응답 ' + r.status);
+  return r.json();
+}
+async function shareSync(quiet){
+  if (!shareReady()) { if (!quiet) toast('공유를 먼저 켜 주세요'); return; }
+  try {
+    var n = await rpc('share_upload', { p_token: D.share.token, p_rows: shareRows() });
+    D.share.last = Date.now(); persist();
+    if (!quiet) toast('익명 통계 ' + n + '건을 보냈어요');
+    if (S.tab === 'settings' && !S.report) render();
+  } catch (e) { if (!quiet) toast('보내지 못했어요: ' + e.message); }
+}
+async function shareStop(){
+  try { if (D.share.url && D.share.key && D.share.token) await rpc('share_upload', { p_token: D.share.token, p_rows: [] }); }
+  catch (e) { toast('서버에서 지우지 못했어요: ' + e.message); return; }
+  D.share.on = false; S.global = null; persist(); toast('공유를 끄고 보낸 기록을 지웠어요'); render();
+}
+async function loadGlobal(){
+  S.gmsg = '';
+  try { S.global = await rpc('share_stats', {}); } catch (e) { S.global = null; S.gmsg = '불러오지 못했어요: ' + e.message; }
+  render();
+}
+
+// ---------- 블루투스 (diy_skin_test.ino, Nordic UART) ----------
+function bleSupported(){ return !!(navigator.bluetooth && navigator.bluetooth.requestDevice); }
+async function bleConnect(){
+  if (!bleSupported()) { toast('이 브라우저는 블루투스를 지원하지 않아요'); return; }
+  var B = S.ble;
+  try {
+    B.state = 'connecting'; updateLive();
+    var dev = await navigator.bluetooth.requestDevice({ filters: [{ services: [NUS] }, { namePrefix: 'Skin' }], optionalServices: [NUS] });
+    dev.addEventListener('gattserverdisconnected', function(){ B.state = 'off'; B.rx = null; updateLive(); toast('측정기 연결이 끊겼어요'); });
+    var srv = await dev.gatt.connect();
+    var svc = await srv.getPrimaryService(NUS);
+    var tx = await svc.getCharacteristic(NUS_TX);
+    B.rx = await svc.getCharacteristic(NUS_RX);
+    await tx.startNotifications();
+    var dec = new TextDecoder();
+    tx.addEventListener('characteristicvaluechanged', function(e){
+      B.buf += dec.decode(e.target.value);
+      var parts = B.buf.split('\n'); B.buf = parts.pop();
+      parts.forEach(onLine);
+    });
+    B.dev = dev; B.state = 'on'; B.live = []; B.csvTried = false;
+    toast((dev.name || '측정기') + ' 연결됨');
+  } catch (e) {
+    B.state = 'off';
+    if (e && e.name !== 'NotFoundError') toast('연결하지 못했어요: ' + (e.message || e));
+  }
+  updateLive();
+}
+function bleDisconnect(){ var B = S.ble; if (B.dev && B.dev.gatt.connected) B.dev.gatt.disconnect(); B.state = 'off'; updateLive(); }
+async function bleSend(cmd){
+  var B = S.ble; if (!B.rx) { toast('측정기를 먼저 연결하세요'); return; }
+  try { var data = new TextEncoder().encode(cmd); if (B.rx.writeValueWithoutResponse) await B.rx.writeValueWithoutResponse(data); else await B.rx.writeValue(data); }
+  catch (e) { toast('명령을 보내지 못했어요'); }
+}
+// 펌웨어 출력 두 형식을 모두 읽는다
+//  CSV : "pF,AU,C"  (온도 전용 모드는 "0,0,C")
+//  글자: "C=3.123pF  AU=45.2  T=33.10C  [접촉·안정]"
+function onLine(line){
+  line = line.trim(); if (!line) return;
+  var B = S.ble, m = null, t = null;
+  var cs = line.match(/^(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)$/);
+  if (cs) {
+    var pf = Number(cs[1]), au = Number(cs[2]), tc = Number(cs[3]);
+    m = (pf === 0 && au === 0) ? null : au; t = tc === 0 ? null : tc;
+  } else {
+    var a = line.match(/AU=(-?[\d.]+)/), tt = line.match(/T=(-?[\d.]+)C/);
+    if (!a && !tt) { B.msg = line; updateLive(); return; }
+    m = a ? Number(a[1]) : null; t = tt ? Number(tt[1]) : null;
+    // 글자 모드 줄은 길어서 잘릴 수 있으므로 한 번만 CSV 모드로 바꾼다
+    if (!B.csvTried) { B.csvTried = true; bleSend('csv'); }
+  }
+  B.live.push({ m: m, t: t, ts: Date.now() });
+  if (B.live.length > 20) B.live.shift();
+  updateLive();
+}
+function recent(){ var now = Date.now(); return S.ble.live.filter(function(x){ return now - x.ts < 4000; }); }
+function liveSummary(){
+  var r = recent();
+  var ms = r.map(function(x){ return x.m; }).filter(function(v){ return v != null; });
+  var ts = r.map(function(x){ return x.t; }).filter(function(v){ return v != null; });
+  var c = cv(ms);
+  return { n: r.length, m: mean(ms), t: mean(ts), cv: c, stable: ms.length >= 3 && c != null && c < STABLE_CV };
+}
+
+// ---------- 측정 화면의 실시간 영역 ----------
+function liveHtml(){
+  var B = S.ble;
+  if (!bleSupported()) return '<p class="muted">이 브라우저는 블루투스 연결을 지원하지 않아요. 안드로이드·PC의 크롬에서 열면 측정기와 바로 연결됩니다. 지금은 아래에 값을 직접 입력하세요.</p>';
+  if (B.state === 'connecting') return '<p class="muted">측정기를 찾는 중…</p>';
+  if (B.state !== 'on') return '<button class="btn ghost block" data-act="ble">측정기 연결 (블루투스)</button><p class="muted mt">측정기 전원을 켜고 눌러 주세요. 목록에서 "SkinDIY"를 고릅니다.</p>';
+  var L = liveSummary();
+  var badge = L.n === 0 ? '<span class="chip warn">값 기다리는 중</span>' : L.stable ? '<span class="chip ok">안정 · 저장 가능</span>' : '<span class="chip">값 움직이는 중</span>';
+  return '<div class="row" style="justify-content:space-between;margin-bottom:8px"><span class="muted">' + esc(B.dev && B.dev.name || '측정기') + ' 연결됨</span>' + badge + '</div>' +
+    '<div class="big"><div><div class="v">' + r1(L.m) + '</div><div class="u">수분 (결단 AU)</div></div><div><div class="v">' + r1(L.t) + '</div><div class="u">피부 온도 °C</div></div></div>' +
+    (L.cv != null ? '<p class="muted mt">최근 ' + L.n + '개 값 편차 ' + r1(L.cv) + '%</p>' : '') +
+    (B.msg ? '<p class="muted">기기: ' + esc(B.msg) + '</p>' : '') +
+    '<button class="btn block mt" data-act="capture"' + (L.stable ? '' : ' disabled') + '>이 값으로 저장</button>';
+}
+function updateLive(){ var el = document.getElementById('live'); if (el) el.innerHTML = liveHtml(); }
+
+// ---------- 화면: 고객 ----------
+function viewCustomers(){
+  var q = S.q.trim();
+  var list = D.customers.filter(function(c){ return !q || c.alias.indexOf(q) >= 0 || (c.phone4 || '').indexOf(q) >= 0; });
+  list.sort(function(a, b){ var la = lastVisit(a.id), lb = lastVisit(b.id); return la < lb ? 1 : la > lb ? -1 : 0; });
+  var items = list.map(function(c){
+    var ss = sessionsOf(c.id), last = ss[ss.length - 1];
+    return '<div class="item" data-act="open" data-id="' + c.id + '"><div class="avatar">' + initial(c.alias) + '</div>' +
+      '<div class="grow"><div class="name">' + esc(c.alias) + (c.phone4 ? ' <span class="muted">· ' + esc(c.phone4) + '</span>' : '') + '</div>' +
+      '<div class="muted">' + (last ? '최근 ' + md(last.date) + ' · ' + ss.length + '회 측정' : '측정 기록 없음') + '</div></div>' +
+      (last ? deltaChip(delta(last)) : '') + '</div>';
+  }).join('');
+  var mon = today().slice(0, 7), monthS = D.sessions.filter(function(s){ return s.date.slice(0, 7) === mon; });
+  var ds = monthS.map(delta).filter(function(d){ return d != null; });
+  var hero = '<div class="hero"><h2>결단</h2><p>피부 수분 전후 기록</p>' +
+    '<div class="stats"><div><b>' + D.customers.length + '</b><span>고객</span></div><div><b>' + monthS.length + '</b><span>이번 달 측정</span></div><div><b>' + (ds.length ? (mean(ds) >= 0 ? '+' : '') + r1(mean(ds)) : '–') + '</b><span>평균 수분 변화</span></div></div>' +
+    (D.customers.length ? '' : '<img src="https://images.unsplash.com/photo-1560305527-51dc8ad5a8f8?auto=format&fit=crop&w=900&h=400&q=70" alt="스마트폰으로 기록을 확인하는 모습">') + '</div>';
+  return hero + '<div class="card"><input id="q" placeholder="고객 별칭·뒷자리 검색" value="' + esc(S.q) + '"></div>' +
+    '<div class="card"><h2>고객 ' + D.customers.length + '명</h2>' + (items ? '<div class="list">' + items + '</div>' : '<p class="muted">아직 등록된 고객이 없어요. 아래에서 추가하거나 [설정 → 예시 데이터]로 둘러보세요.</p>') + '</div>' +
+    '<div class="card"><h2>고객 추가</h2><label class="f">별칭 (실명 대신)</label><input id="nAlias" maxlength="20" placeholder="예) 김OO, 302호 산모">' +
+    '<label class="f">휴대폰 뒷자리 4자리 (구분용, 선택)</label><input id="nPhone" inputmode="numeric" maxlength="4" placeholder="1234">' +
+    '<button class="btn block mt" data-act="addCust">추가</button></div>';
+}
+function lastVisit(cid){ var ss = sessionsOf(cid); return ss.length ? ss[ss.length - 1].date : ''; }
+
+function viewCustomer(){
+  var c = cust(S.cid); if (!c) { S.cid = null; return viewCustomers(); }
+  var ss = sessionsOf(c.id), last = ss[ss.length - 1];
+  var lastCard = '';
+  if (last) {
+    var d = delta(last), g = tempGap(last);
+    lastCard = '<div class="card"><h2>최근 관리 ' + md(last.date) + ' · ' + esc(last.site) + ' ' + esc(last.area) + '</h2>' +
+      '<div class="cmp"><div class="side"><div class="muted">관리 전</div><div class="v">' + r1(last.pre && last.pre.m) + '</div><div class="muted">' + r1(last.pre && last.pre.t) + '°C</div></div><div class="arrow">→</div>' +
+      '<div class="side"><div class="muted">관리 후</div><div class="v">' + r1(last.post && last.post.m) + '</div><div class="muted">' + r1(last.post && last.post.t) + '°C</div></div></div>' +
+      (d != null ? '<div class="delta ' + (d >= 0 ? 'up' : 'down') + '">수분 ' + (d >= 0 ? '+' : '') + r1(d) + '</div>' : '') +
+      (g != null && g > TEMP_WARN ? '<div class="note">관리 전후 피부 온도 차이가 ' + r1(g) + '°C로 커서, 수분 변화 비교에 주의가 필요해요.</div>' : '') +
+      careLine(last) + '</div>';
+  }
+  var rows = ss.slice().reverse().map(function(s){
+    return '<tr><td>' + md(s.date) + ' <span class="muted">' + esc(s.area) + '</span></td><td>' + r1(s.pre && s.pre.m) + '</td><td>' + r1(s.post && s.post.m) + '</td><td>' + deltaChip(delta(s)) + '</td><td><button class="iconbtn" data-act="delSess" data-id="' + s.id + '" aria-label="기록 삭제">×</button></td></tr>';
+  }).join('');
+  return '<div class="card"><div class="row"><div class="avatar">' + initial(c.alias) + '</div><div class="grow"><div class="name">' + esc(c.alias) + '</div><div class="muted">' + (c.phone4 ? '뒷자리 ' + esc(c.phone4) + ' · ' : '') + '측정 ' + ss.length + '회</div></div></div>' +
+    '<div class="row mt"><button class="btn grow" data-act="startFor" data-id="' + c.id + '">새 측정</button><button class="btn ghost grow" data-act="share" data-id="' + c.id + '"' + (ss.length ? '' : ' disabled') + '>리포트 보내기</button></div>' +
+    '<div class="row mt"><span class="grow muted">익명 통계 제공</span><button class="chip ' + (c.share ? 'ok' : '') + '" style="border:0" data-act="consent" data-id="' + c.id + '">' + (c.share ? '동의함 · ' + md(c.shareAt) : '동의 안 함') + '</button></div></div>' +
+    lastCard +
+    '<div class="card"><h2>방문별 수분 추이</h2>' + chart(ss) + '</div>' +
+    (rows ? '<div class="card"><h2>전체 기록</h2><table class="t"><tr><th>날짜</th><th>전</th><th>후</th><th>변화</th><th></th></tr>' + rows + '</table></div>' : '') +
+    '<div class="card"><button class="btn danger block" data-act="delCust" data-id="' + c.id + '">고객과 기록 모두 삭제</button></div>';
+}
+
+// ---------- 화면: 측정 ----------
+function viewMeasure(){
+  var dr = S.draft;
+  if (!dr) {
+    if (!D.customers.length) return '<div class="card"><h2>측정</h2><p class="muted">먼저 [고객] 탭에서 고객을 추가해 주세요.</p></div>';
+    var opts = D.customers.map(function(c){ return '<option value="' + c.id + '">' + esc(c.alias) + (c.phone4 ? ' · ' + esc(c.phone4) : '') + '</option>'; }).join('');
+    return '<div class="card"><h2>새 측정</h2><label class="f">고객</label><select id="dCust">' + opts + '</select>' +
+      '<button class="btn block mt" data-act="start">측정 시작</button></div>';
+  }
+  var c = cust(dr.cid);
+  var stepIdx = dr.step === 'pre' ? 0 : dr.step === 'post' ? 1 : 2;
+  var steps = ['관리 전', '관리 후', '저장'].map(function(n, i){ return '<div class="' + (i === stepIdx ? 'on' : i < stepIdx ? 'done' : '') + '">' + n + '</div>'; }).join('');
+  var head = '<div class="card"><div class="row"><div class="grow"><div class="name">' + esc(c ? c.alias : '') + '</div><div class="muted">' + esc(dr.site) + ' · ' + esc(dr.area) + ' · ' + dr.date + '</div></div><button class="btn plain" data-act="cancel">취소</button></div></div>';
+  var setup = '';
+  if (dr.step === 'pre' && !dr.pre) {
+    setup = '<div class="card"><label class="f">부위</label><div class="seg">' + Object.keys(AREAS).map(function(k){ return '<button data-act="site" data-id="' + k + '" class="' + (dr.site === k ? 'on' : '') + '">' + k + '</button>'; }).join('') + '</div>' +
+      '<label class="f">위치 (매번 같은 곳)</label><div class="seg">' + AREAS[dr.site].map(function(k){ return '<button data-act="area" data-id="' + k + '" class="' + (dr.area === k ? 'on' : '') + '">' + k + '</button>'; }).join('') + '</div></div>';
+  }
+  if (dr.step === 'done') {
+    var s = { pre: dr.pre, post: dr.post }, d = delta(s), g = tempGap(s);
+    return '<div class="steps">' + steps + '</div>' + head +
+      '<div class="card"><h2>결과 확인</h2><div class="cmp"><div class="side"><div class="muted">관리 전</div><div class="v">' + r1(dr.pre.m) + '</div><div class="muted">' + r1(dr.pre.t) + '°C</div></div><div class="arrow">→</div><div class="side"><div class="muted">관리 후</div><div class="v">' + r1(dr.post.m) + '</div><div class="muted">' + r1(dr.post.t) + '°C</div></div></div>' +
+      (d != null ? '<div class="delta ' + (d >= 0 ? 'up' : 'down') + '">수분 ' + (d >= 0 ? '+' : '') + r1(d) + '</div>' : '') +
+      (g != null && g > TEMP_WARN ? '<div class="note">관리 전후 피부 온도 차이가 ' + r1(g) + '°C예요. 피부가 식은 뒤 다시 재면 비교가 더 정확해요.</div>' : '') +
+      '<label class="f">사용 제품</label><select id="dProd"><option value="">선택 안 함</option>' + D.products.map(function(p){ return '<option' + (dr.product === p ? ' selected' : '') + '>' + esc(p) + '</option>'; }).join('') + '</select>' +
+      (D.products.length ? '' : '<p class="muted">[제품] 탭에서 제품을 등록하면 고를 수 있어요.</p>') +
+      '<label class="f">관리 내용</label><input id="dCare" placeholder="예) 수분 앰플 관리 30분" value="' + esc(dr.care) + '">' +
+      '<label class="f">메모</label><textarea id="dNote" placeholder="고객 반응, 홈케어 안내 등">' + esc(dr.note) + '</textarea>' +
+      '<div class="row mt"><button class="btn plain" data-act="redoPost">관리 후 다시 재기</button><button class="btn grow" data-act="saveSess">저장</button></div></div>';
+  }
+  var label = dr.step === 'pre' ? '관리 전' : '관리 후';
+  var got = dr.step === 'pre' ? dr.pre : dr.post;
+  return '<div class="steps">' + steps + '</div>' + head + setup +
+    '<div class="card"><h2>' + label + ' 측정</h2><div id="live">' + liveHtml() + '</div></div>' +
+    '<div class="card"><h2>직접 입력</h2><p class="muted">측정기가 없을 때나 다른 기기 값을 옮겨 적을 때 씁니다.</p>' +
+    '<div class="row"><div class="grow"><label class="f">수분</label><input id="mM" inputmode="decimal" value="' + (got && got.src === 'manual' ? got.m : '') + '"></div><div class="grow"><label class="f">피부 온도 °C</label><input id="mT" inputmode="decimal" value="' + (got && got.src === 'manual' && got.t != null ? got.t : '') + '"></div></div>' +
+    '<button class="btn ghost block mt" data-act="manual">' + label + ' 값으로 저장</button></div>' +
+    (dr.step === 'post' && dr.pre ? '<div class="card"><span class="muted">관리 전 저장값</span> <b>' + r1(dr.pre.m) + '</b> · ' + r1(dr.pre.t) + '°C</div>' : '');
+}
+function newDraft(cid){
+  var prev = sessionsOf(cid).slice(-1)[0];
+  var site = prev ? prev.site : '얼굴';
+  return { cid: cid, date: today(), site: site, area: prev ? prev.area : AREAS[site][0], step: 'pre', pre: null, post: null, care: '', note: '', product: prev && D.products.indexOf(prev.product) >= 0 ? prev.product : '' };
+}
+function takeValue(v){
+  var dr = S.draft;
+  if (dr.step === 'pre') { dr.pre = v; dr.step = 'post'; toast('관리 전 값 저장. 관리가 끝나면 같은 위치를 다시 재세요'); }
+  else { dr.post = v; dr.step = 'done'; }
+  render();
+}
+
+// ---------- 화면: 설정 ----------
+function viewSettings(){
+  var conn = S.ble.state === 'on';
+  return '<div class="card"><h2>기관 정보</h2><label class="f">기관 이름 (리포트에 표시)</label><input id="clinic" maxlength="30" placeholder="예) OO 피부관리샵" value="' + esc(D.clinic) + '"><button class="btn block mt" data-act="saveClinic">저장</button></div>' +
+    '<div class="card"><h2>측정기 교정</h2><p class="muted">측정기를 처음 쓸 때 한 번 합니다. 전극을 허공에 두고 [공기 기준], 젖은 거즈에 대고 [젖은 거즈 기준]을 누릅니다.</p>' +
+    '<div class="row mt"><button class="btn ghost grow" data-act="cmd" data-id="air"' + (conn ? '' : ' disabled') + '>공기 기준</button><button class="btn ghost grow" data-act="cmd" data-id="ref"' + (conn ? '' : ' disabled') + '>젖은 거즈 기준</button></div>' +
+    '<div class="row mt"><button class="btn plain grow" data-act="cmd" data-id="info"' + (conn ? '' : ' disabled') + '>설정 보기</button>' + (conn ? '<button class="btn plain grow" data-act="bleOff">연결 끊기</button>' : '<button class="btn plain grow" data-act="ble">측정기 연결</button>') + '</div>' +
+    (S.ble.msg ? '<p class="muted mt">기기: ' + esc(S.ble.msg) + '</p>' : '') + '</div>' +
+    shareCard() +
+    '<div class="card"><h2>데이터</h2><p class="muted">기록은 이 기기의 브라우저에만 저장됩니다. 정기적으로 백업 파일을 받아 두세요.</p>' +
+    '<button class="btn ghost block mt" data-act="csv">엑셀용 CSV 내려받기</button><button class="btn ghost block mt" data-act="backup">백업 파일 내려받기</button>' +
+    '<label class="btn plain block mt" style="display:flex;align-items:center;justify-content:center">백업 파일로 복원<input type="file" id="restore" accept=".json,application/json" hidden></label></div>' +
+    '<div class="card"><h2>둘러보기</h2><button class="btn plain block" data-act="demo">예시 데이터 넣기</button><button class="btn danger block mt" data-act="reset">모든 데이터 지우기</button></div>' +
+    '<div class="card"><h2>측정값 안내</h2><p class="muted">수분은 결단 측정기의 상대값(AU)입니다. 공기 0, 젖은 거즈 100 기준이며, 같은 기기로 같은 위치를 잰 값끼리 비교하는 용도입니다. 표준 장비(Corneometer) 단위와는 다릅니다.</p></div>';
+}
+
+function shareCard(){
+  var s = D.share, nc = D.customers.filter(function(c){ return c.share; }).length;
+  return '<div class="card"><h2>익명 통계 공유</h2>' +
+    '<p class="muted">동의한 고객 기록 중 <b>제품 · 부위 · 위치 · 측정 월 · 관리 전후 수분</b>만 보냅니다. 별칭, 뒷자리, 메모, 날짜(일)는 보내지 않아요. 5회 이상 모인 제품만 다른 기관에 보입니다.</p>' +
+    '<label class="f">서버 주소</label><input id="shUrl" placeholder="https://xxxx.supabase.co" value="' + esc(s.url) + '">' +
+    '<label class="f">공개 키 (publishable 또는 anon)</label><input id="shKey" placeholder="sb_publishable_… 또는 eyJ…" value="' + esc(s.key) + '">' +
+    '<div class="row mt"><button class="btn grow" data-act="shOn">' + (s.on ? '설정 저장' : '공유 켜기') + '</button>' + (s.on ? '<button class="btn danger grow" data-act="shOff">공유 끄기</button>' : '') + '</div>' +
+    (s.on ? '<button class="btn ghost block mt" data-act="shSync">지금 보내기</button><p class="muted mt">동의 고객 ' + nc + '명 · 보낼 기록 ' + shareRows().length + '건' + (s.last ? ' · 마지막 전송 ' + new Date(s.last).toLocaleString('ko-KR') : '') + '</p>' : '') +
+    '</div>';
+}
+
+// ---------- 화면: 제품 ----------
+function viewProducts(){
+  var f = S.pf;
+  var seg = '<div class="seg">' + ['전체', '얼굴', '두피'].map(function(k){ return '<button data-act="pf" data-id="' + k + '" class="' + (f === k ? 'on' : '') + '">' + k + '</button>'; }).join('') + '</div>';
+  var g;
+  if (!shareReady()) g = '<p class="muted">[설정 → 익명 통계 공유]를 켜면 다른 기관의 결과와 비교할 수 있어요.</p>';
+  else if (!S.global) g = (S.gmsg ? '<div class="note" style="margin:0 0 10px">' + esc(S.gmsg) + '</div>' : '') + '<button class="btn ghost block" data-act="gLoad">전체 통계 불러오기</button>';
+  else {
+    var items = S.global.filter(function(x){ return f === '전체' || x.site === f; }).map(function(x){
+      var n = Number(x.n), sd = x.sd == null ? null : Number(x.sd);
+      return { name: x.product + (f === '전체' ? ' · ' + x.site : ''), n: n, mean: Number(x.avg_delta), se: sd == null ? null : sd / Math.sqrt(n), clinics: Number(x.clinics) };
+    }).sort(function(a, b){ return b.mean - a.mean; });
+    g = bars(items, function(x){ return ' · ' + x.clinics + '개 기관'; }, '아직 5회 이상 모인 제품이 없어요.') + '<button class="btn plain block mt" data-act="gLoad">새로 고침</button>';
+  }
+  var plist = D.products.map(function(p, i){ return '<div class="item" style="cursor:default"><div class="grow">' + esc(p) + '</div><button class="iconbtn" data-act="delProd" data-id="' + i + '" aria-label="제품 삭제">×</button></div>'; }).join('');
+  return '<div class="card">' + seg + '</div>' +
+    '<div class="card"><h2>우리 기관 · 제품별 수분 변화</h2><p class="muted">관리 후 − 관리 전 평균 (± 표준오차)</p>' + bars(productStats(f), null, '측정을 저장할 때 제품을 고르면 여기에 나타나요.') + '</div>' +
+    '<div class="card"><h2>결단 전체 (익명)</h2>' + g + '</div>' +
+    '<div class="card"><h2>제품 관리</h2>' + (plist ? '<div class="list">' + plist + '</div>' : '<p class="muted">등록된 제품이 없어요.</p>') +
+    '<div class="row mt"><input id="nProd" class="grow" maxlength="30" placeholder="예) 수분 앰플 A"><button class="btn" data-act="addProd">추가</button></div></div>';
+}
+
+// ---------- 리포트 (고객에게 보내는 링크) ----------
+function b64e(s){ return btoa(unescape(encodeURIComponent(s))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); }
+function b64d(s){ s = s.replace(/-/g, '+').replace(/_/g, '/'); while (s.length % 4) s += '='; return decodeURIComponent(escape(atob(s))); }
+function reportLink(cid){
+  var c = cust(cid);
+  // 별칭·측정값만 담는다 (휴대폰 뒷자리, 메모는 넣지 않음)
+  var rows = sessionsOf(cid).slice(-8).map(function(s){ return [s.date, s.site, s.area, s.pre ? s.pre.m : null, s.post ? s.post.m : null, s.pre ? s.pre.t : null, s.post ? s.post.t : null, s.care || '', s.product || '']; });
+  var data = { v: 1, k: D.clinic, a: c.alias, s: rows };
+  return location.href.split('#')[0] + '#r=' + b64e(JSON.stringify(data));
+}
+function viewReport(){
+  var R = S.report;
+  var ss = R.s.map(function(r){ return { date: r[0], site: r[1], area: r[2], pre: { m: r[3], t: r[5] }, post: { m: r[4], t: r[6] }, care: r[7], product: r[8] }; });
+  var last = ss[ss.length - 1], first = ss[0];
+  var d = last ? delta(last) : null;
+  var trend = (ss.length >= 2 && first.pre.m != null && last.pre.m != null) ? last.pre.m - first.pre.m : null;
+  var rows = ss.slice().reverse().map(function(s){ return '<tr><td>' + md(s.date) + ' <span class="muted">' + esc(s.area) + '</span></td><td>' + r1(s.pre.m) + '</td><td>' + r1(s.post.m) + '</td><td>' + deltaChip(delta(s)) + '</td></tr>'; }).join('');
+  return '<div class="hero"><div class="eyebrow">' + esc(R.k || '결단 스킨로그') + '</div><h2>' + esc(R.a) + ' 님의<br>피부 수분 기록</h2><p>방문 ' + ss.length + '회 · 최근 ' + (last ? md(last.date) : '') + '</p></div>' +
+    (last ? '<div class="card"><h2>최근 관리 ' + md(last.date) + ' · ' + esc(last.site) + ' ' + esc(last.area) + '</h2>' +
+      '<div class="cmp"><div class="side"><div class="muted">관리 전</div><div class="v">' + r1(last.pre.m) + '</div></div><div class="arrow">→</div><div class="side"><div class="muted">관리 후</div><div class="v">' + r1(last.post.m) + '</div></div></div>' +
+      (d != null ? '<div class="delta ' + (d >= 0 ? 'up' : 'down') + '">수분 ' + (d >= 0 ? '+' : '') + r1(d) + '</div>' : '') +
+      careLine(last) + '</div>' : '') +
+    (trend != null ? '<div class="card"><h2>첫 방문 대비</h2><p>관리 전 수분이 첫 방문(' + md(first.date) + ') ' + r1(first.pre.m) + '에서 최근 ' + r1(last.pre.m) + '로 <b>' + (trend >= 0 ? '+' : '') + r1(trend) + '</b> 변했어요.</p></div>' : '') +
+    '<div class="card"><h2>방문별 수분 추이</h2>' + chart(ss) + '</div>' +
+    '<div class="card"><h2>전체 기록</h2><table class="t"><tr><th>날짜</th><th>전</th><th>후</th><th>변화</th></tr>' + rows + '</table></div>' +
+    '<div class="card muted">수분은 같은 측정기로 같은 위치를 잰 상대값(AU)입니다. 관리 기관에서 측정한 기록이며 의학적 진단이 아닙니다.</div>';
+}
+
+// ---------- 내보내기·예시 ----------
+function download(name, text, type){
+  var blob = new Blob([text], { type: type }), a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click();
+  setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 500);
+}
+function csvCell(v){ v = v == null ? '' : String(v); return /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; }
+function exportCsv(){
+  var head = ['날짜', '고객', '뒷자리', '부위', '위치', '관리 내용', '제품', '관리전 수분', '관리후 수분', '수분 변화', '관리전 온도', '관리후 온도', '관리전 방식', '관리후 방식', '관리전 편차%', '메모'];
+  var lines = [head.join(',')];
+  D.sessions.slice().sort(function(a, b){ return a.date < b.date ? -1 : 1; }).forEach(function(s){
+    var c = cust(s.cid) || {}, d = delta(s);
+    lines.push([s.date, c.alias, c.phone4, s.site, s.area, s.care, s.product, s.pre && s.pre.m, s.post && s.post.m, d == null ? '' : r1(d), s.pre && s.pre.t, s.post && s.post.t, s.pre && s.pre.src, s.post && s.post.src, s.pre && s.pre.cv != null ? r1(s.pre.cv) : '', s.note].map(csvCell).join(','));
+  });
+  download('결단_측정기록_' + today() + '.csv', '﻿' + lines.join('\n'), 'text/csv');
+}
+function addDemo(){
+  var names = [['[예시] 302호 산모', '1234'], ['[예시] 김OO', '5678'], ['[예시] 이OO', '9012']];
+  var base = new Date(); base.setDate(base.getDate() - 35);
+  names.forEach(function(n, k){
+    var c = { id: uid(), alias: n[0], phone4: n[1], created: Date.now() };
+    D.customers.push(c);
+    var pre = 28 + k * 4;
+    for (var i = 0; i < 5; i++) {
+      var dt = new Date(base); dt.setDate(base.getDate() + i * 7 + k);
+      var prod = k === 0 ? '[예시] 두피 토닉 C' : (i + k) % 2 ? '[예시] 수분 앰플 A' : '[예시] 진정 팩 B';
+      var eff = { '[예시] 두피 토닉 C': 9, '[예시] 수분 앰플 A': 12, '[예시] 진정 팩 B': 6 }[prod];
+      var p = pre + i * 1.6 + (Math.random() - .5) * 2, q = p + eff + (Math.random() - .5) * 4;
+      D.sessions.push({ id: uid(), cid: c.id, date: dt.toISOString().slice(0, 10), ts: Date.now() + i, site: k === 0 ? '두피' : '얼굴', area: k === 0 ? '정수리' : '볼', care: k === 0 ? '두피 진정 케어' : '수분 관리 30분', product: prod, note: '',
+        pre: { m: Math.round(p * 10) / 10, t: 33.2, src: 'demo' }, post: { m: Math.round(q * 10) / 10, t: 33.8, src: 'demo' } });
+    }
+  });
+  ['[예시] 수분 앰플 A', '[예시] 진정 팩 B', '[예시] 두피 토닉 C'].forEach(function(p){ if (D.products.indexOf(p) < 0) D.products.push(p); });
+  if (!D.clinic) D.clinic = '[예시] 결단 피부관리샵';
+  save(); toast('예시 고객 3명을 넣었어요'); S.tab = 'cust'; render();
+}
+
+// ---------- 그리기 ----------
+var TABS = [['cust', '고객', '👥'], ['measure', '측정', '📏'], ['prod', '제품', '📊'], ['settings', '설정', '⚙️']];
+function render(){
+  var hdr = document.getElementById('hdr'), view = document.getElementById('view'), tabs = document.getElementById('tabs');
+  if (S.report) {
+    hdr.innerHTML = '<h1>결단 스킨로그 <span class="sub">피부 기록 리포트</span></h1>';
+    view.innerHTML = viewReport(); tabs.style.display = 'none'; return;
+  }
+  var title = S.tab === 'cust' ? (S.cid ? '고객 기록' : '고객') : S.tab === 'measure' ? '측정' : S.tab === 'prod' ? '제품별 효과' : '설정';
+  hdr.innerHTML = (S.tab === 'cust' && S.cid ? '<button class="iconbtn" data-act="back" aria-label="뒤로">←</button>' : '') +
+    '<h1>' + title + ' <span class="sub">' + esc(D.clinic || '결단 스킨로그') + '</span></h1>' +
+    (S.ble.state === 'on' ? '<span class="chip ok">측정기 연결</span>' : '');
+  view.innerHTML = S.tab === 'cust' ? (S.cid ? viewCustomer() : viewCustomers()) : S.tab === 'measure' ? viewMeasure() : S.tab === 'prod' ? viewProducts() : viewSettings();
+  tabs.innerHTML = TABS.map(function(t){ return '<button data-tab="' + t[0] + '" class="' + (S.tab === t[0] ? 'on' : '') + '"><span class="i">' + t[2] + '</span>' + t[1] + '</button>'; }).join('');
+  var q = document.getElementById('q');
+  if (q) q.oninput = function(){ S.q = q.value; var pos = q.selectionStart; render(); var q2 = document.getElementById('q'); q2.focus(); q2.setSelectionRange(pos, pos); };
+  var rs = document.getElementById('restore');
+  if (rs) rs.onchange = restore;
+}
+function restore(e){
+  var f = e.target.files[0]; if (!f) return;
+  var rd = new FileReader();
+  rd.onload = function(){
+    try { var d = JSON.parse(rd.result); if (!Array.isArray(d.customers) || !Array.isArray(d.sessions)) throw 0;
+      if (!confirm('지금 데이터를 백업 파일 내용으로 바꿀까요?')) return;
+      setData(d); save(); toast('복원했어요'); render(); }
+    catch (x) { toast('결단 백업 파일이 아니에요'); }
+  };
+  rd.readAsText(f);
+}
+
+// ---------- 동작 ----------
+document.addEventListener('click', function(e){
+  var tb = e.target.closest('[data-tab]');
+  if (tb) { S.tab = tb.getAttribute('data-tab'); if (S.tab === 'cust') S.cid = null; render(); window.scrollTo(0, 0); return; }
+  var el = e.target.closest('[data-act]'); if (!el || el.disabled) return;
+  var act = el.getAttribute('data-act'), id = el.getAttribute('data-id'), v;
+  if (act === 'open') { S.cid = id; render(); window.scrollTo(0, 0); }
+  else if (act === 'back') { S.cid = null; render(); }
+  else if (act === 'addCust') {
+    var alias = document.getElementById('nAlias').value.trim(), ph = document.getElementById('nPhone').value.trim();
+    if (!alias) { toast('별칭을 입력하세요'); return; }
+    if (ph && !/^\d{4}$/.test(ph)) { toast('뒷자리는 숫자 4자리예요'); return; }
+    var c = { id: uid(), alias: alias, phone4: ph, created: Date.now() };
+    D.customers.push(c); save(); S.cid = c.id; toast(alias + ' 님을 추가했어요'); render();
+  }
+  else if (act === 'delCust') {
+    if (!confirm('이 고객과 측정 기록을 모두 지울까요? 되돌릴 수 없어요.')) return;
+    D.customers = D.customers.filter(function(c){ return c.id !== id; }); D.sessions = D.sessions.filter(function(s){ return s.cid !== id; });
+    save(); S.cid = null; render();
+  }
+  else if (act === 'delSess') { if (!confirm('이 측정 기록을 지울까요?')) return; D.sessions = D.sessions.filter(function(s){ return s.id !== id; }); save(); render(); }
+  else if (act === 'startFor') { S.draft = newDraft(id); S.tab = 'measure'; render(); window.scrollTo(0, 0); }
+  else if (act === 'start') { S.draft = newDraft(document.getElementById('dCust').value); render(); }
+  else if (act === 'cancel') { if (S.draft.pre && !confirm('측정을 취소할까요? 저장하지 않은 값은 사라져요.')) return; S.draft = null; render(); }
+  else if (act === 'site') { S.draft.site = id; S.draft.area = AREAS[id][0]; render(); }
+  else if (act === 'area') { S.draft.area = id; render(); }
+  else if (act === 'ble') bleConnect();
+  else if (act === 'bleOff') { bleDisconnect(); render(); }
+  else if (act === 'cmd') { S.ble.msg = ''; bleSend(id); toast(id === 'info' ? '설정을 요청했어요' : '교정값을 저장했어요'); setTimeout(render, 800); }
+  else if (act === 'capture') { var L = liveSummary(); if (!L.stable) return; takeValue({ m: Math.round(L.m * 10) / 10, t: L.t == null ? null : Math.round(L.t * 100) / 100, n: L.n, cv: L.cv, src: 'ble' }); }
+  else if (act === 'manual') {
+    var m = num(document.getElementById('mM').value), t = num(document.getElementById('mT').value);
+    if (m == null) { toast('수분 값을 입력하세요'); return; }
+    takeValue({ m: m, t: t, src: 'manual' });
+  }
+  else if (act === 'redoPost') { S.draft.post = null; S.draft.step = 'post'; render(); }
+  else if (act === 'saveSess') {
+    var dr = S.draft;
+    D.sessions.push({ id: uid(), cid: dr.cid, date: dr.date, ts: Date.now(), site: dr.site, area: dr.area, care: document.getElementById('dCare').value.trim(), product: document.getElementById('dProd').value, note: document.getElementById('dNote').value.trim(), pre: dr.pre, post: dr.post });
+    save(); S.cid = dr.cid; S.draft = null; S.tab = 'cust'; toast('저장했어요'); render(); window.scrollTo(0, 0);
+  }
+  else if (act === 'share') {
+    var link = reportLink(id), who = cust(id).alias;
+    if (navigator.share) navigator.share({ title: who + ' 님의 피부 기록', text: (D.clinic ? D.clinic + ' ' : '') + who + ' 님의 피부 수분 기록입니다.', url: link }).catch(function(){});
+    else if (navigator.clipboard) navigator.clipboard.writeText(link).then(function(){ toast('리포트 링크를 복사했어요. 카카오톡에 붙여 넣으세요'); }, function(){ prompt('리포트 링크', link); });
+    else prompt('리포트 링크', link);
+  }
+  else if (act === 'saveClinic') { D.clinic = document.getElementById('clinic').value.trim(); save(); toast('저장했어요'); render(); }
+  else if (act === 'csv') { if (!D.sessions.length) { toast('내보낼 기록이 없어요'); return; } exportCsv(); }
+  else if (act === 'backup') download('결단_백업_' + today() + '.json', JSON.stringify(D), 'application/json');
+  else if (act === 'demo') addDemo();
+  else if (act === 'reset') {
+    if (!confirm('모든 고객과 기록을 지울까요? 되돌릴 수 없어요.' + (D.share.on ? ' (공유한 익명 통계도 서버에서 지웁니다)' : ''))) return;
+    var wasOn = D.share.on;
+    if (wasOn) shareStop();
+    setData({ share: { url: D.share.url, key: D.share.key, token: D.share.token } }); persist(); S.cid = null; S.draft = null; render();
+  }
+  else if (act === 'pf') { S.pf = id; render(); }
+  else if (act === 'gLoad') loadGlobal();
+  else if (act === 'addProd') {
+    var pn = document.getElementById('nProd').value.trim().replace(/\s+/g, ' ');
+    if (!pn) { toast('제품 이름을 입력하세요'); return; }
+    if (D.products.indexOf(pn) >= 0) { toast('이미 있는 제품이에요'); return; }
+    D.products.push(pn); save(); render();
+  }
+  else if (act === 'delProd') { var dp = D.products[+id]; if (!confirm(dp + ' 을(를) 목록에서 뺄까요? 지난 기록과 통계는 그대로 남아요.')) return; D.products.splice(+id, 1); save(); render(); }
+  else if (act === 'consent') {
+    var cc = cust(id);
+    if (!cc.share) {
+      if (!confirm('고객에게 동의를 받았나요?\n\n이름·연락처 없이 제품, 부위, 측정 월, 관리 전후 수분만 결단 익명 통계에 쓰입니다. 언제든 철회할 수 있어요.')) return;
+      cc.share = true; cc.shareAt = today();
+    } else { if (!confirm('동의를 철회할까요? 이 고객의 기록은 다음 전송 때 서버에서 빠집니다.')) return; cc.share = false; cc.shareAt = ''; }
+    save(); render();
+  }
+  else if (act === 'shOn') {
+    var su = document.getElementById('shUrl').value.trim(), sk = document.getElementById('shKey').value.trim();
+    if (!/^https:\/\/\S+$/.test(su) || !sk) { toast('서버 주소(https://…)와 공개 키를 넣어 주세요'); return; }
+    D.share.url = su; D.share.key = sk;
+    if (!D.share.token) D.share.token = uid() + uid() + uid();   // 우리 기관 기록을 서버에서 덮어쓰거나 지울 때 쓰는 비밀값
+    D.share.on = true; persist(); render(); shareSync(false);
+  }
+  else if (act === 'shOff') { if (!confirm('공유를 끄고 지금까지 보낸 익명 기록을 서버에서 지울까요?')) return; shareStop(); }
+  else if (act === 'shSync') shareSync(false);
+});
+
+// ---------- 시작 ----------
+var h = location.hash || '';
+if (h.indexOf('#r=') === 0) {
+  try { S.report = JSON.parse(b64d(h.slice(3))); if (!S.report || !Array.isArray(S.report.s)) S.report = null; } catch (e) { S.report = null; }
+}
+load();
+render();
+setInterval(function(){ if (S.ble.state === 'on') updateLive(); }, 1000);   // 값이 끊기면 '기다리는 중'으로 바뀌도록
+})();
+</script>
+</body>
+</html>
