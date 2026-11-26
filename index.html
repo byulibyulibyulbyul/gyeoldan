@@ -19,6 +19,16 @@ body{margin:0;background:#E9EFE7;font-family:Pretendard,'Pretendard Variable',-a
 .hero .stats div{flex:1;background:rgba(255,255,255,.12);border-radius:12px;padding:10px;text-align:center}
 .hero .stats b{display:block;font-size:22px;font-weight:900}
 .hero .stats span{font-size:12px;opacity:.85}
+.chars{display:flex;justify-content:center;align-items:flex-end;gap:4px;margin:14px -6px -6px;background:radial-gradient(ellipse at 50% 85%,rgba(255,255,255,.18),rgba(255,255,255,0) 70%);border-radius:14px;padding-top:6px}
+.chars .ch{position:relative;width:46%;max-width:170px;display:flex;justify-content:center}
+.chars img{display:block;width:auto;height:190px;margin:0;object-fit:contain;transform-origin:50% 100%;animation:sway 3.2s ease-in-out infinite;position:relative;z-index:1}
+.chars i{position:absolute;left:50%;bottom:2px;width:90px;height:12px;margin-left:-45px;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.25),rgba(0,0,0,0));animation:shadow 3.2s ease-in-out infinite}
+.chars .late img,.chars .late i{animation-delay:-1.6s}
+@keyframes sway{0%,100%{transform:rotate(-2.2deg) translateY(0)}25%,75%{transform:rotate(0) translateY(-4px) scaleY(1.012)}50%{transform:rotate(2.2deg) translateY(0)}}
+@keyframes shadow{0%,50%,100%{transform:scaleX(1);opacity:1}25%,75%{transform:scaleX(.9);opacity:.8}}
+@media (prefers-reduced-motion:reduce){.chars img,.chars i{animation:none}}
+.app-link{display:block;text-align:center;margin:-4px 0 12px;font-size:13px;font-weight:700;color:var(--brand);text-decoration:none}
+.app-cta a.btn{display:flex;align-items:center;justify-content:center;text-decoration:none}
 .app{max-width:480px;margin:0 auto;min-height:100vh;background:var(--bg);padding-bottom:84px;position:relative}
 header.top{position:sticky;top:0;z-index:5;background:#fff;display:flex;align-items:center;gap:6px;padding:8px 12px 8px 16px;min-height:60px;border-bottom:1px solid var(--line)}
 header.top h1{font-size:20px;margin:0;flex:1;font-weight:700}
@@ -318,8 +328,9 @@ function viewCustomers(){
   var ds = monthS.map(delta).filter(function(d){ return d != null; });
   var hero = '<div class="hero"><h2>결단</h2><p>피부 수분 전후 기록</p>' +
     '<div class="stats"><div><b>' + D.customers.length + '</b><span>고객</span></div><div><b>' + monthS.length + '</b><span>이번 달 측정</span></div><div><b>' + (ds.length ? (mean(ds) >= 0 ? '+' : '') + r1(mean(ds)) : '–') + '</b><span>평균 수분 변화</span></div></div>' +
-    (D.customers.length ? '' : '<img src="https://images.unsplash.com/photo-1560305527-51dc8ad5a8f8?auto=format&fit=crop&w=900&h=400&q=70" alt="스마트폰으로 기록을 확인하는 모습">') + '</div>';
-  return hero + '<div class="card"><input id="q" placeholder="고객 별칭·뒷자리 검색" value="' + esc(S.q) + '"></div>' +
+    CHARS + '</div>';
+  return hero + '<a class="app-link" href="' + APP_URL + '" target="_blank" rel="noopener">고객용 앱 · 결단 스킨로그 열기 ↗</a>' +
+    '<div class="card"><input id="q" placeholder="고객 별칭·뒷자리 검색" value="' + esc(S.q) + '"></div>' +
     '<div class="card"><h2>고객 ' + D.customers.length + '명</h2>' + (items ? '<div class="list">' + items + '</div>' : '<p class="muted">아직 등록된 고객이 없어요. 아래에서 추가하거나 [설정 → 예시 데이터]로 둘러보세요.</p>') + '</div>' +
     '<div class="card"><h2>고객 추가</h2><label class="f">별칭 (실명 대신)</label><input id="nAlias" maxlength="20" placeholder="예) 김OO, 302호 산모">' +
     '<label class="f">휴대폰 뒷자리 4자리 (구분용, 선택)</label><input id="nPhone" inputmode="numeric" maxlength="4" placeholder="1234">' +
@@ -453,6 +464,8 @@ function viewProducts(){
 }
 
 // ---------- 리포트 (고객에게 보내는 링크) ----------
+var APP_URL = 'https://gyeoldan-skinlog.site.aiapp.help/';
+var CHARS = '<div class="chars"><div class="ch"><img src="gyeori.webp" alt="결이"><i></i></div><div class="ch late"><img src="dani.webp" alt="단이"><i></i></div></div>';
 function b64e(s){ return btoa(unescape(encodeURIComponent(s))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); }
 function b64d(s){ s = s.replace(/-/g, '+').replace(/_/g, '/'); while (s.length % 4) s += '='; return decodeURIComponent(escape(atob(s))); }
 function reportLink(cid){
@@ -469,7 +482,7 @@ function viewReport(){
   var d = last ? delta(last) : null;
   var trend = (ss.length >= 2 && first.pre.m != null && last.pre.m != null) ? last.pre.m - first.pre.m : null;
   var rows = ss.slice().reverse().map(function(s){ return '<tr><td>' + md(s.date) + ' <span class="muted">' + esc(s.area) + '</span></td><td>' + r1(s.pre.m) + '</td><td>' + r1(s.post.m) + '</td><td>' + deltaChip(delta(s)) + '</td></tr>'; }).join('');
-  return '<div class="hero"><div class="eyebrow">' + esc(R.k || '결단 스킨로그') + '</div><h2>' + esc(R.a) + ' 님의<br>피부 수분 기록</h2><p>방문 ' + ss.length + '회 · 최근 ' + (last ? md(last.date) : '') + '</p></div>' +
+  return '<div class="hero"><div class="eyebrow">' + esc(R.k || '결단 스킨로그') + '</div><h2>' + esc(R.a) + ' 님의<br>피부 수분 기록</h2><p>방문 ' + ss.length + '회 · 최근 ' + (last ? md(last.date) : '') + '</p>' + CHARS + '</div>' +
     (last ? '<div class="card"><h2>최근 관리 ' + md(last.date) + ' · ' + esc(last.site) + ' ' + esc(last.area) + '</h2>' +
       '<div class="cmp"><div class="side"><div class="muted">관리 전</div><div class="v">' + r1(last.pre.m) + '</div></div><div class="arrow">→</div><div class="side"><div class="muted">관리 후</div><div class="v">' + r1(last.post.m) + '</div></div></div>' +
       (d != null ? '<div class="delta ' + (d >= 0 ? 'up' : 'down') + '">수분 ' + (d >= 0 ? '+' : '') + r1(d) + '</div>' : '') +
@@ -477,6 +490,8 @@ function viewReport(){
     (trend != null ? '<div class="card"><h2>첫 방문 대비</h2><p>관리 전 수분이 첫 방문(' + md(first.date) + ') ' + r1(first.pre.m) + '에서 최근 ' + r1(last.pre.m) + '로 <b>' + (trend >= 0 ? '+' : '') + r1(trend) + '</b> 변했어요.</p></div>' : '') +
     '<div class="card"><h2>방문별 수분 추이</h2>' + chart(ss) + '</div>' +
     '<div class="card"><h2>전체 기록</h2><table class="t"><tr><th>날짜</th><th>전</th><th>후</th><th>변화</th></tr>' + rows + '</table></div>' +
+    '<div class="card app-cta"><h2>집에서도 매일 기록해 보세요</h2><p class="muted">결단 스킨로그 앱에서 결이·단이와 함께 내 피부 수분을 기록하고, 기록할수록 띠가 바뀌어요.</p>' +
+    '<a class="btn block mt" href="' + APP_URL + '" target="_blank" rel="noopener">결단 스킨로그 앱 열기</a></div>' +
     '<div class="card muted">수분은 같은 측정기로 같은 위치를 잰 상대값(AU)입니다. 관리 기관에서 측정한 기록이며 의학적 진단이 아닙니다.</div>';
 }
 
